@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+/* @font-face {
+  font-family: klavika-l;
+  src: url("/font/klavika-light.otf");
+  font-style: normal;
+  font-display: swap;
+} */
+
+@layer components {
+  body {
+    font-family: system-ui;
+    -webkit-text-size-adjust: 100%; /* 2. Prevent adjustments of font size after orientation changes in iOS. */
+  }
+  /* nomalization preferencies, don't touch */
+  html {
+    scroll-behavior: smooth;
+  }
+  button {
+    cursor: pointer;
+  }
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block; /* normalmente sono tutti elementi in-line */
+    max-width: 100%; /* si adattano al contenitore */
+    user-select: none; /* non possono essere selezionate/evidenziate */
+  }
+}
+
+@theme {
+  /* --color-green-600: #004818; */
+  /* --font-klavika-l: klavika-l, sans-serif; */
+}
+
+@utility content-auto {
+  content-visibility: auto;
+}
