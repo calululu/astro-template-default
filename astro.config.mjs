@@ -1,8 +1,8 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from "@tailwindcss/vite";
 
-// https://astro.build/config
+//EDIT site with website
 export default defineConfig({
+      site: "https://websiteURLexample.it",
       vite: {    plugins: [tailwindcss()],  },
 });
