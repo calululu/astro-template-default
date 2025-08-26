@@ -1,4 +1,22 @@
 ---
+export interface Props {
+  type?: string;
+}
 
+const { type = "1" } = Astro.props;
 ---
-<button>Button</button>
+
+<!-- it's called in this way:
+<Button>NameIchoose</Button> -->
+
+{
+  type == "1" ? (
+    <button class='bg-black p-4 text-white'>
+      <slot />
+    </button>
+  ) : (
+    <button class='bg-red-400 p-4 text-white'>
+      <slot />
+    </button>
+  )
+}
