@@ -9,7 +9,7 @@ export default defineConfig({
     // 👇 Update these lines
     sanity({
       projectId: "MY-PROJECT-ID",
-      dataset: "MY-PROD-NAME,
+      dataset: "MY-DATASET-NAME,
       useCdn: false, // for static builds
     }),
   ],
