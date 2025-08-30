@@ -1,8 +1,16 @@
-import { defineConfig } from 'astro/config';
-import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "astro/config";
+import tailwind from "@astrojs/tailwind";
 
-//EDIT site with website
+import sanity from "@sanity/astro";
+
 export default defineConfig({
-      site: "https://websiteURLexample.it",
-      vite: {    plugins: [tailwindcss()],  },
+  integrations: [
+    tailwind(),
+    // 👇 Update these lines
+    sanity({
+      projectId: "MY-PROJECT-ID",
+      dataset: "MY-PROD-NAME,
+      useCdn: false, // for static builds
+    }),
+  ],
 });
