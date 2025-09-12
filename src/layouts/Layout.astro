@@ -4,7 +4,12 @@ import MetadataSEO from "./components/MetadataSEO.astro";
 import Header from "./components/Header.astro";
 import Footer from "./components/Footer.astro";
 
-const {metadescription=""} = Astro.props;
+import type { MetadescriptionType } from "../types/types";
+
+interface Props {
+  metadescription: MetadescriptionType;
+}
+const { metadescription } = Astro.props;
 
 //Import CSS
 import "../assets/css/main.css";
