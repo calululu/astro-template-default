@@ -1,3 +1,1 @@
-export interface MetadescriptionType {
-  metadescription: string;
-}
+export type MetadescriptionType = string;
