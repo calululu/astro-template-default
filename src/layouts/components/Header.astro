@@ -1,0 +1,38 @@
+---
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/contatti/", label: "Contatti" },
+];
+
+const normalizePath = (path: string) =>
+  path !== "/" && path.endsWith("/") ? path.slice(0, -1) : path;
+---
+
+<header>
+  <nav
+    class='flex items-center justify-around p-4'
+    aria-label='Main navigation'
+  >
+    <ul class='flex list-none items-center gap-6 p-0'>
+      {
+        navItems.map(({ href, label }) => {
+          const isCurrent = normalizePath(currentPath) === normalizePath(href);
+
+          return (
+            <li>
+              <a
+                href={href}
+                aria-current={isCurrent ? "page" : undefined}
+                class='underline-offset-4 hover:underline aria-[current=page]:font-semibold'
+              >
+                {label}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </nav>
+</header>

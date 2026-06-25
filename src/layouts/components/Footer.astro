@@ -1,0 +1,32 @@
+---
+const year = new Date().getFullYear();
+
+const footerLinks = [
+  { href: "/privacy/", label: "Privacy Policy" },
+  { href: "/cookies/", label: "Cookie Settings" },
+];
+---
+
+<footer class='mt-12 border-t border-neutral-200 p-4 text-sm'>
+  <div
+    class='mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 sm:flex-row'
+  >
+    <p>
+      &copy; {year} Website Name. All rights reserved.
+    </p>
+
+    <nav aria-label='Footer navigation'>
+      <ul class='flex list-none flex-wrap justify-center gap-4 p-0'>
+        {
+          footerLinks.map(({ href, label }) => (
+            <li>
+              <a class='underline-offset-4 hover:underline' href={href}>
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</footer>

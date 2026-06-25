@@ -1,0 +1,128 @@
+---
+/**
+ * Button component.
+ *
+ * Renders:
+ * - an `<a>` element when `href` or `to` is provided
+ * - a native `<button>` element otherwise
+ *
+ * Use `variant` for visual style, `size` for dimensions,
+ * and `class` for layout-specific overrides such as `w-full`.
+ * Disabled links are removed from the tab order and marked with
+ * `aria-disabled`; disabled buttons use the native `disabled` attribute.
+ *
+ * @example
+ * ```astro
+ * <Button href="/contact">Contact us</Button>
+ * <Button variant="secondary" type="submit">Submit</Button>
+ * <Button variant="ghost">Cancel</Button>
+ * <Button variant="link" href="/privacy">Privacy Policy</Button>
+ * ```
+ */
+import type { HTMLAttributes } from "astro/types";
+
+type ButtonVariant = "primary" | "secondary" | "ghost" | "link";
+type ButtonSize = "sm" | "md" | "lg";
+
+export interface Props extends Omit<HTMLAttributes<"a">, "class" | "type"> {
+  /** Visual style variant. */
+  variant?: ButtonVariant;
+  /** Size of the button. Ignored by the `link` variant. */
+  size?: ButtonSize;
+  /** URL used to render the component as an anchor element. */
+  href?: string;
+  /** Convenience alias for `href`. */
+  to?: string;
+  /** Native button type when no URL is provided. */
+  type?: "button" | "submit" | "reset";
+  /** Disables the button or makes the link non-interactive. */
+  disabled?: boolean;
+  /** Extra CSS classes appended after the default classes. */
+  class?: string;
+  /** Convenience alias for `aria-label`. */
+  ariaLabel?: string;
+}
+
+const {
+  variant = "primary",
+  size = "md",
+  href,
+  to,
+  type = "button",
+  target,
+  rel,
+  disabled = false,
+  class: className = "",
+  ariaLabel,
+  "aria-label": ariaLabelAttribute,
+  ...attrs
+} = Astro.props;
+
+const url = href ?? to;
+const label = ariaLabelAttribute ?? ariaLabel;
+
+const relValues = new Set(rel?.split(" ").filter(Boolean));
+if (target === "_blank") {
+  relValues.add("noopener");
+  relValues.add("noreferrer");
+}
+const computedRel = relValues.size > 0 ? [...relValues].join(" ") : undefined;
+
+const baseClass =
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2";
+
+const variantClasses: Record<ButtonVariant, string> = {
+  primary:
+    "bg-black text-white hover:bg-neutral-800 focus-visible:outline-black",
+  secondary:
+    "border border-black bg-transparent text-black hover:bg-black hover:text-white focus-visible:outline-black",
+  ghost:
+    "bg-transparent text-black hover:bg-neutral-100 focus-visible:outline-black",
+  link: "p-0 text-black underline-offset-4 hover:text-green-700 hover:underline focus-visible:outline-black",
+};
+
+const sizeClasses: Record<ButtonSize, string> = {
+  sm: "min-h-9 rounded px-3 text-sm",
+  md: "min-h-11 rounded-md px-4",
+  lg: "min-h-12 rounded-md px-5 text-lg",
+};
+
+const disabledClass = disabled ? "pointer-events-none opacity-50" : "";
+
+const classes = [
+  baseClass,
+  variant !== "link" ? sizeClasses[size] : "",
+  variantClasses[variant],
+  disabledClass,
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+{
+  url ? (
+    <a
+      {...attrs}
+      href={disabled ? undefined : url}
+      class={classes}
+      target={target}
+      rel={computedRel}
+      aria-label={label}
+      aria-disabled={disabled ? "true" : undefined}
+      tabindex={disabled ? -1 : attrs.tabindex}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button
+      {...attrs}
+      type={type}
+      class={classes}
+      disabled={disabled}
+      aria-label={label}
+    >
+      <slot />
+    </button>
+  )
+}

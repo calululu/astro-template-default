@@ -1,0 +1,102 @@
+---
+/**
+ * SEO metadata component.
+ *
+ * Generates standard SEO tags, Open Graph metadata,
+ * Twitter Card tags, canonical URLs, alternate locales,
+ * and JSON-LD structured data.
+ *
+ * Supports automatic URL resolution using `Astro.site`
+ * and falls back to `Astro.url` when necessary.
+ *
+ * @example
+ * ```astro
+ * <MetadataSEO
+ *   title="About us"
+ *   description="Learn more about our company."
+ *   canonical="/about"
+ * />
+ * ```
+ *
+ * @example
+ * ```astro
+ * <MetadataSEO
+ *   title="Blog post"
+ *   description="An article about Astro."
+ *   type="article"
+ *   image="/images/post-cover.jpg"
+ *   author="John Doe"
+ *   publishedTime="2026-06-25T10:00:00Z"
+ *   modifiedTime="2026-06-25T12:00:00Z"
+ * />
+ * ```
+ *
+ * @example
+ * ```astro
+ * <MetadataSEO
+ *   title="Homepage"
+ *   description="Welcome to my website."
+ *   siteName="My Website"
+ *   alternateLocales={[
+ *     { hreflang: "en", href: "/en" },
+ *     { hreflang: "it", href: "/it" },
+ *   ]}
+ *   structuredData={{
+ *     "@context": "https://schema.org",
+ *     "@type": "Organization",
+ *     name: "My Company",
+ *   }}
+ * />
+ * ```
+ */
+import type { MetadataSEOProps } from "../../types/types";
+
+type Props = Partial<MetadataSEOProps>;
+
+const {
+  title = "Pick a title",
+  description = "",
+  canonical,
+  siteName,
+  titleTemplate = "%s",
+  image,
+  imageAlt,
+  type = "website",
+  locale = "it_IT",
+  keywords = [],
+  robots,
+  noindex = false,
+  nofollow = false,
+  author,
+  publishedTime,
+  modifiedTime,
+  themeColor,
+  twitterCard,
+  alternateLocales = [],
+  structuredData,
+} = Astro.props;
+
+const pageTitle = titleTemplate.includes("%s")
+  ? titleTemplate.replace("%s", title)
+  : title;
+
+const baseUrl = Astro.site ?? Astro.url;
+const currentUrl = new URL(Astro.url.pathname, baseUrl);
+const canonicalUrl = canonical
+  ? new URL(canonical, baseUrl).toString()
+  : currentUrl.toString();
+const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
+const robotsContent =
+  robots ??
+  `${noindex ? "noindex" : "index"}, ${nofollow ? "nofollow" : "follow"}`;
+const twitterCardType =
+  twitterCard ?? (imageUrl ? "summary_large_image" : "summary");
+
+const jsonLd = Array.isArray(structuredData)
+  ? structuredData
+  : structuredData
+    ? [structuredData]
+    : [];
+---
+
+<meta charset='UTF-8' />

@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* @font-face {
+  font-family: klavika-l;
+  src: url("/font/klavika-light.otf");
+  font-style: normal;
+  font-display: swap;
+} */
+
+@layer components {
+  html {
+    font-size: 100%; /* 16px default */
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: system-ui;
+    -webkit-text-size-adjust: 100%; /* 2. Prevent adjustments of font size after orientation changes in iOS. */
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  /* h1 and other to add default text size */
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+  a {
+    color: inherit;
+  }
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    z-index: 50;
+    transform: translateY(-150%);
+    background: #000;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    transition: transform 150ms ease;
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+  /* nomalization preferencies, don't touch */
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+    user-select: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@theme {
+  /* --color-green-600: #004818; */
+  /* --font-klavika-l: klavika-l, sans-serif; */
+}
+
+@utility content-auto {
+  content-visibility: auto;
+}
